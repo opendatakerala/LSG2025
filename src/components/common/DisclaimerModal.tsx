@@ -32,7 +32,7 @@ export const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ isOpen, onClos
                         <p className="leading-relaxed">
                             The accuracy or completeness of the data presented on this page cannot be guaranteed.
                             The information has been sourced from the SEC Kerala website.
-                            If you notice any errors or discrepancies, please let me know so they can be reviewed.
+                            If you notice any errors or discrepancies, please <a href="https://github.com/gnoeee/KeralaLSGElection/issues">let me know </a>so they can be reviewed.
                         </p>
                     </div>
 
