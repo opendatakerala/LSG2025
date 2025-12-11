@@ -64,39 +64,39 @@ export const DetailPanel: React.FC<DetailPanelProps> = ({ localBody, onBack, war
                         </span>
                     </div>
 
-                    <div className="grid gap-4">
-                        <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-                            <div className="flex items-start gap-4">
-                                <div className="p-3 bg-indigo-50 text-indigo-600 rounded-xl">
+                    <div className="grid grid-cols-3 gap-2 md:gap-4">
+                        <div className="p-3 md:p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div className="flex flex-col md:flex-row md:items-start md:gap-4">
+                                <div className="hidden md:block p-3 bg-indigo-50 text-indigo-600 rounded-xl">
                                     <Vote size={24} />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-slate-500 mb-1">Total Voters</p>
-                                    <p className="text-2xl font-bold text-slate-900">{totalVoters.toLocaleString()}</p>
+                                    <p className="text-xs md:text-sm font-medium text-slate-500 mb-1">Total Voters</p>
+                                    <p className="text-lg md:text-2xl font-bold text-slate-900">{totalVoters.toLocaleString()}</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-                            <div className="flex items-start gap-4">
-                                <div className="p-3 bg-emerald-50 text-emerald-600 rounded-xl">
+                        <div className="p-3 md:p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div className="flex flex-col md:flex-row md:items-start md:gap-4">
+                                <div className="hidden md:block p-3 bg-emerald-50 text-emerald-600 rounded-xl">
                                     <MapPin size={24} />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-slate-500 mb-1">Polling Stations</p>
-                                    <p className="text-2xl font-bold text-slate-900">{totalPollingStations.toLocaleString()}</p>
+                                    <p className="text-xs md:text-sm font-medium text-slate-500 mb-1">Polling Stations</p>
+                                    <p className="text-lg md:text-2xl font-bold text-slate-900">{totalPollingStations.toLocaleString()}</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-                            <div className="flex items-start gap-4">
-                                <div className="p-3 bg-amber-50 text-amber-600 rounded-xl">
+                        <div className="p-3 md:p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div className="flex flex-col md:flex-row md:items-start md:gap-4">
+                                <div className="hidden md:block p-3 bg-amber-50 text-amber-600 rounded-xl">
                                     <Building2 size={24} />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-slate-500 mb-1">Total Wards</p>
-                                    <p className="text-2xl font-bold text-slate-900">{localBody.total_wards}</p>
+                                    <p className="text-xs md:text-sm font-medium text-slate-500 mb-1">Total Wards</p>
+                                    <p className="text-lg md:text-2xl font-bold text-slate-900">{localBody.total_wards}</p>
                                 </div>
                             </div>
                         </div>
