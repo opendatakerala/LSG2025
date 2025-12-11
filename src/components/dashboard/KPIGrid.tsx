@@ -1,6 +1,6 @@
 import React from 'react';
 import { cn } from '../../lib/utils';
-import { Building2, Users, Vote, List } from 'lucide-react';
+import { Building2, Users, List } from 'lucide-react';
 
 interface KPIProps {
     label: string;
