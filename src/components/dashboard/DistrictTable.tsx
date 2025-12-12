@@ -60,6 +60,10 @@ export const DistrictTable: React.FC<DistrictTableProps> = ({
                 kpiCount = districtLBs.length;
             }
 
+            // Calculate total wards for the filtered list (or district total if no specific filter)
+            // If selectedKPI is 'totalWards', filteredLBs is effectively districtLBs, so this works too.
+            const totalWards = filteredLBs.reduce((acc, curr) => acc + curr.total_wards, 0);
+
             // Calculate voters and stations based on selection
             let voters = 0;
             let stations = 0;
@@ -103,6 +107,7 @@ export const DistrictTable: React.FC<DistrictTableProps> = ({
             return {
                 district,
                 kpiCount,
+                totalWards,
                 voters,
                 stations
             };
@@ -131,10 +136,14 @@ export const DistrictTable: React.FC<DistrictTableProps> = ({
                                 </span>
                             </div>
                             <div className="flex flex-col">
+                                <span className="text-slate-500 text-xs">Total Wards</span>
+                                <span className="font-medium text-slate-700">{row.totalWards.toLocaleString()}</span>
+                            </div>
+                            <div className="flex flex-col text-right">
                                 <span className="text-slate-500 text-xs">Total Voters</span>
                                 <span className="font-medium text-slate-700">{row.voters.toLocaleString()}</span>
                             </div>
-                            <div className="flex flex-col text-right">
+                            <div className="col-span-2 pt-2 border-t border-slate-50 flex justify-between items-center">
                                 <span className="text-slate-500 text-xs">Polling Stations</span>
                                 <span className="font-medium text-slate-700">{row.stations.toLocaleString()}</span>
                             </div>
@@ -153,6 +162,7 @@ export const DistrictTable: React.FC<DistrictTableProps> = ({
                                 <th className="py-4 px-6 font-semibold text-slate-700 text-sm uppercase tracking-wider text-right">
                                     {selectedKPI && !['voters', 'pollingStations'].includes(selectedKPI) ? kpiLabel : (selectedKPI === 'totalWards' ? 'Total Wards' : 'Local Bodies')}
                                 </th>
+                                <th className="py-4 px-6 font-semibold text-slate-700 text-sm uppercase tracking-wider text-right">Total Wards</th>
                                 <th className="py-4 px-6 font-semibold text-slate-700 text-sm uppercase tracking-wider text-right">Total Voters</th>
                                 <th className="py-4 px-6 font-semibold text-slate-700 text-sm uppercase tracking-wider text-right">Polling Stations</th>
                             </tr>
@@ -170,6 +180,9 @@ export const DistrictTable: React.FC<DistrictTableProps> = ({
                                         }}
                                     >
                                         {row.kpiCount.toLocaleString()}
+                                    </td>
+                                    <td className="py-4 px-6 text-slate-600 text-right">
+                                        {row.totalWards.toLocaleString()}
                                     </td>
                                     <td className="py-4 px-6 text-slate-600 text-right">
                                         {row.voters.toLocaleString()}
