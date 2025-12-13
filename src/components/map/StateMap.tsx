@@ -52,7 +52,7 @@ export const StateMap: React.FC<StateMapProps> = ({
     return (
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col h-[calc(100dvh-150px)]">
             <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-white z-10">
-                <h2 className="text-xl font-bold text-slate-800">Kerala Election Trends</h2>
+                <h2 className="text-l font-bold text-slate-800">Kerala Election Trends</h2>
 
                 {/* Tabs */}
                 <div className="flex bg-slate-100 p-1 rounded-lg">

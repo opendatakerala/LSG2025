@@ -112,36 +112,44 @@ export const DistrictMap: React.FC<DistrictMapProps> = ({
 
     return (
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col h-[calc(100dvh-150px)]">
-            <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-white z-10">
+            <div className="p-4 border-b border-slate-200 bg-white z-10
+                flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div className="flex items-center gap-4">
                     <button
-                        onClick={onBack}
-                        className="text-slate-500 hover:text-blue-600 transition-colors"
+                    onClick={onBack}
+                    className="flex items-center gap-1 text-slate-500 hover:text-blue-600 transition-colors"
                     >
-                        ← Back to Districts
+                    <span>←</span>
+                    <span className="hidden sm:inline">Back to Districts</span>
                     </button>
                     <div>
-                        <h2 className="text-xl font-bold text-slate-800">{districtName}</h2>
-                        <p className="text-sm text-slate-500">District Overview</p>
+                    <h2 className="text-lg md:text-xl font-bold text-slate-800">
+                        {districtName}
+                    </h2>
+                    <p className="text-xs md:text-sm text-slate-500">
+                        District Overview
+                    </p>
                     </div>
                 </div>
 
                 {/* Tabs */}
-                <div className="flex bg-slate-100 p-1 rounded-lg">
-                    {(['grama','district', 'block'] as const).map((tab) => (
-                        <button
-                            key={tab}
-                            onClick={() => setActiveTab(tab)}
-                            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${activeTab === tab
-                                ? 'bg-white text-blue-600 shadow-sm'
-                                : 'text-slate-500 hover:text-slate-700'
-                                }`}
-                        >
-                            {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                        </button>
+                <div className="flex bg-slate-100 p-1 rounded-lg self-start md:self-auto">
+                    {(['district', 'block', 'grama'] as const).map((tab) => (
+                    <button
+                        key={tab}
+                        onClick={() => setActiveTab(tab)}
+                        className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
+                        activeTab === tab
+                            ? 'bg-white text-blue-600 shadow-sm'
+                            : 'text-slate-500 hover:text-slate-700'
+                        }`}
+                    >
+                        {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                    </button>
                     ))}
                 </div>
-            </div>
+                </div>
+
 
             <div className="flex-1 flex flex-col md:flex-row">
                 <div className="flex-1 relative bg-slate-50 min-h-[50vh] md:min-h-0">

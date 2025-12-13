@@ -118,7 +118,7 @@ export const LocalBodyTrendMap: React.FC<LocalBodyTrendMapProps> = ({
     // };
 
     return (
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col h-[calc(100dvh-140px)] overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col h-[calc(100dvh-80px)] overflow-hidden">
             {/* Header */}
             <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-white z-10 shrink-0">
                 <div className="flex items-center gap-4">
