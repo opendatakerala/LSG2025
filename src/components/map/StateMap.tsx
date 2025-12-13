@@ -72,7 +72,7 @@ export const StateMap: React.FC<StateMapProps> = ({
             </div>
 
             <div className="flex-1 flex flex-col md:flex-row">
-                <div className="flex-1 relative bg-slate-50 min-h-[50vh] md:min-h-0">
+                <div className="flex-1 relative bg-slate-50 min-h-[90vh] md:min-h-[1000px]">
                     {map.isLoading && (
                         <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/50 backdrop-blur-sm">
                             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
