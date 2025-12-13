@@ -250,6 +250,7 @@ export const fetchTrendResults = async (): Promise<TrendResult[]> => {
                         };
 
                         trend.wardInfo[wardNo].candidates.push(candidate);
+                        trend.Candidate_Count++;
 
                         // Winner and seats will be calculated after sorting
                         if (status === 'leading') {
