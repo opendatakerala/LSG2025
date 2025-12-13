@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 const DistrictMap = React.lazy(() => import('./DistrictMap').then(m => ({ default: m.DistrictMap })));
 const StateMap = React.lazy(() => import('./StateMap').then(m => ({ default: m.StateMap })));
 const LocalBodyTrendMap = React.lazy(() => import('./LocalBodyTrendMap').then(m => ({ default: m.LocalBodyTrendMap })));
-import { fetchLocalBodies, fetchTrendResults } from '../../services/dataService';
-import type { LocalBody, TrendResult } from '../../services/dataService';
+import type { LocalBody } from '../../services/dataService';
+import { useLocalBody, useTrendResults } from '../../services/data';
 
 interface MapDashboardProps {
     // Add props as needed
@@ -15,29 +15,8 @@ export const MapDashboard: React.FC<MapDashboardProps> = () => {
     const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null);
     const [selectedLB, setSelectedLB] = useState<LocalBody | null>(null);
 
-    // Data State
-    const [allLocalBodies, setAllLocalBodies] = useState<LocalBody[]>([]);
-    const [allTrends, setAllTrends] = useState<TrendResult[]>([]);
-    const [loadingData, setLoadingData] = useState(true);
-
-    // Initial Data Load
-    useEffect(() => {
-        const loadInitialData = async () => {
-            try {
-                const [lbs, trends] = await Promise.all([
-                    fetchLocalBodies(),
-                    fetchTrendResults()
-                ]);
-                setAllLocalBodies(lbs);
-                setAllTrends(trends);
-            } catch (error) {
-                console.error("Failed to load initial dashboard data", error);
-            } finally {
-                setLoadingData(false);
-            }
-        };
-        loadInitialData();
-    }, []);
+  const allLocalBodies = useLocalBody();
+  const allTrends = useTrendResults();
 
     // Handlers
     // handleSelectDistrict and handleSelectLB replaced by StateMap logic and DistrictMap logic
@@ -53,7 +32,7 @@ export const MapDashboard: React.FC<MapDashboardProps> = () => {
     };
 
     const handleSelectLBByCode = (lbCode: string) => {
-        const lb = allLocalBodies.find(b => b.lb_code === lbCode);
+        const lb = allLocalBodies?.data?.find(b => b.lb_code === lbCode);
         if (lb) {
             setSelectedLB(lb);
             setView('map');
@@ -68,7 +47,7 @@ export const MapDashboard: React.FC<MapDashboardProps> = () => {
         // Future enhancement: Deep link to specific LB via lbCode
     };
 
-    if (loadingData) {
+    if (allLocalBodies.isLoading || allTrends.isLoading) {
         return (
             <div className="flex items-center justify-center h-[calc(100vh-140px)] bg-white rounded-2xl shadow-sm border border-slate-200">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -83,30 +62,30 @@ export const MapDashboard: React.FC<MapDashboardProps> = () => {
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
                 </div>
             }>
-                {view === 'districts' && (
+                {view === 'districts' && allTrends.data && (
                     <StateMap
-                        trends={allTrends}
+                        trends={allTrends.data}
                         onSelectLB={handleStateMapSelection}
                     />
                 )}
 
-                {view === 'lbs' && selectedDistrict && (
+                {view === 'lbs' && selectedDistrict && allTrends.data && allLocalBodies?.data && (
                     <DistrictMap
                         districtName={selectedDistrict}
                         onSelectLB={handleSelectLBByCode}
                         onBack={handleBackToDistricts}
-                        localBodies={allLocalBodies.filter(lb => lb.district_name === selectedDistrict)}
-                        trends={allTrends}
+                        localBodies={allLocalBodies.data.filter(lb => lb.district_name === selectedDistrict)}
+                        trends={allTrends.data}
                     />
                 )}
 
-                {view === 'map' && selectedLB && selectedDistrict && (
+                {view === 'map' && selectedLB && selectedDistrict && allTrends?.data && (
                     <LocalBodyTrendMap
                         lbName={selectedLB.lb_name_english}
                         lbCode={selectedLB.lb_code}
                         districtName={selectedDistrict}
                         totalWards={selectedLB.total_wards}
-                        trendData={allTrends.find(t => t.LB_Code === selectedLB.lb_code)}
+                        trendData={allTrends.data.find(t => t.LB_Code === selectedLB.lb_code)}
                         onBack={handleBackToLBs}
                     />
                 )}
