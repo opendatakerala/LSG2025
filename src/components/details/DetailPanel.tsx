@@ -77,7 +77,7 @@ export const DetailPanel: React.FC<DetailPanelProps> = ({ localBody, onBack, war
                                 <div className="bg-gradient-to-br from-slate-50 to-white border border-slate-200 rounded-xl p-4 flex flex-col justify-center items-center text-center">
                                     <span className="text-xs uppercase font-bold text-slate-500 mb-1">Leading Front</span>
                                     <div className={`text-4xl font-black ${trendData.Leading_Front === 'LDF' ? 'text-red-600' :
-                                        trendData.Leading_Front === 'UDF' ? 'text-green-600' :
+                                        trendData.Leading_Front === 'UDF' ? 'text-indigo-600' :
                                             trendData.Leading_Front === 'NDA' ? 'text-orange-600' : 'text-slate-700'
                                         }`}>
                                         {trendData.Leading_Front}
@@ -93,7 +93,7 @@ export const DetailPanel: React.FC<DetailPanelProps> = ({ localBody, onBack, war
                                     <div className="space-y-2">
                                         {[
                                             { label: 'LDF', value: trendData.LDF_Seats, color: 'bg-red-500', text: 'text-red-700' },
-                                            { label: 'UDF', value: trendData.UDF_Seats, color: 'bg-green-500', text: 'text-green-700' },
+                                            { label: 'UDF', value: trendData.UDF_Seats, color: 'bg-indigo-500', text: 'text-indigo-700' },
                                             { label: 'NDA', value: trendData.NDA_Seats, color: 'bg-orange-500', text: 'text-orange-700' },
                                             { label: 'Others', value: trendData.IND_Seats, color: 'bg-slate-400', text: 'text-slate-700' },
                                         ].map(item => (
@@ -221,8 +221,10 @@ export const DetailPanel: React.FC<DetailPanelProps> = ({ localBody, onBack, war
                                             // Determine text color
                                             const groupColor =
                                                 displayResult?.group === 'LDF' ? 'text-red-600' :
-                                                    displayResult?.group === 'UDF' ? 'text-green-600' :
-                                                        displayResult?.group === 'NDA' ? 'text-orange-600' : 'text-slate-600';
+                                                    displayResult?.group === 'UDF' ? 'text-indigo-600' :
+                                                        displayResult?.group === 'NDA' ? 'text-orange-600' : 
+                                                        displayResult?.group ==='Others' ? 'text-slate-600':
+                                                        'text-slate-500';
 
                                             return (
                                                 <tr key={ward.ward_code} className="hover:bg-slate-50 transition-colors">
