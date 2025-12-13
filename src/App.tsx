@@ -349,7 +349,7 @@ function App() {
 
           <div className="flex items-center justify-between px-1 mt-3">
             <p className="text-[10px] text-slate-400 font-medium">
-              Crafted with :) by <a href="https://gnoeee.github.io" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-blue-600 transition-colors">JinOy</a>
+              Crafted with :) by <a href="https://gnoeee.github.io" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-blue-600 transition-colors">Opendata Kerala</a>
             </p>
             <button
               onClick={() => setIsDisclaimerOpen(true)}
