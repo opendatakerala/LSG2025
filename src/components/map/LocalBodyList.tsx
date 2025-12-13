@@ -79,7 +79,7 @@ export const LocalBodyList: React.FC<LocalBodyListProps> = ({
                         const leadingFront = trend?.Leading_Front || 'N/A';
                         const leadingColor =
                             leadingFront === 'LDF' ? 'text-red-600' :
-                                leadingFront === 'UDF' ? 'text-green-600' :
+                                leadingFront === 'UDF' ? 'text-indigo-600' :
                                     leadingFront === 'NDA' ? 'text-orange-600' : 'text-slate-500';
 
                         return (
