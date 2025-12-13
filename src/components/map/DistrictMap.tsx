@@ -57,7 +57,7 @@ export const DistrictMap: React.FC<DistrictMapProps> = ({
                     if (trend) {
                         switch (trend.Leading_Front) {
                             case 'LDF': color = '#ef4444'; break;
-                            case 'UDF': color = '#22c55e'; break;
+                            case 'UDF': color = '#2768F5'; break;
                             case 'NDA': color = '#f97316'; break;
                             case 'Hung': color = '#64748b'; break;
                             case 'IND': color = '#94a3b8'; break;

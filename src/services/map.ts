@@ -47,8 +47,8 @@ const loadMap = async (file: string, trends: Trend[]) => {
           color = "#ef4444";
           break; // red-500
         case "UDF":
-          color = "#22c55e";
-          break; // green-500
+          color = "#2768F5";
+          break; // indigo
         case "NDA":
           color = "#f97316";
           break; // orange-500

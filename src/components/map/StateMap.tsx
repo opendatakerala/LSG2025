@@ -117,7 +117,7 @@ export const StateMap: React.FC<StateMapProps> = ({
                                     <div className="flex items-center gap-2">
                                         <div className={`px-2 py-0.5 rounded text-xs font-bold text-white
                                             ${hoveredInfo.trend.Leading_Front === 'LDF' ? 'bg-red-500' :
-                                                hoveredInfo.trend.Leading_Front === 'UDF' ? 'bg-green-500' :
+                                                hoveredInfo.trend.Leading_Front === 'UDF' ? 'bg-indigo-500' :
                                                     hoveredInfo.trend.Leading_Front === 'NDA' ? 'bg-orange-500' : 'bg-slate-500'
                                             }`}
                                         >
@@ -141,7 +141,7 @@ export const StateMap: React.FC<StateMapProps> = ({
                         <h4 className="font-semibold text-slate-700 mb-3">Legend</h4>
                         <div className="space-y-2">
                             <div className="flex items-center gap-3"><div className="w-4 h-4 rounded bg-red-500"></div><span className="text-sm">LDF</span></div>
-                            <div className="flex items-center gap-3"><div className="w-4 h-4 rounded bg-green-500"></div><span className="text-sm">UDF</span></div>
+                            <div className="flex items-center gap-3"><div className="w-4 h-4 rounded bg-indigo-500"></div><span className="text-sm">UDF</span></div>
                             <div className="flex items-center gap-3"><div className="w-4 h-4 rounded bg-orange-500"></div><span className="text-sm">NDA</span></div>
                             <div className="flex items-center gap-3"><div className="w-4 h-4 rounded bg-slate-500"></div><span className="text-sm">Others / Hung</span></div>
                         </div>
