@@ -141,7 +141,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
       <MapContainer
         center={[10.8505, 76.2711]}
         zoom={7}
-        style={{ height: '100%', width: '100%', background: 'white' }}
+        style={{ height: '100%', width: '100%', background: 'white', zIndex: 0 }}
         dragging={dragging ?? interactive}
         zoomControl={zoomControl ?? interactive}
         scrollWheelZoom={scrollWheelZoom ?? interactive}
