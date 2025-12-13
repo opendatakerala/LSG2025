@@ -323,15 +323,3 @@ export const fetchTrendResults = async (): Promise<TrendResult[]> => {
         return [];
     }
 };
-
-export const fetchGeoJSON = async (district: string, type: string, name: string) => {
-    const url = `${BASE_URL}data/geojson/${district}/${type}/${name}.json`;
-    try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('GeoJSON not found');
-        return await response.json();
-    } catch (error) {
-        console.error(`Failed to fetch GeoJSON for ${name} (${type}, ${district})`, error);
-        return null;
-    }
-};
