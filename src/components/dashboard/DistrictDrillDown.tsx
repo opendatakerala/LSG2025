@@ -25,7 +25,7 @@ export const DistrictDrillDown: React.FC<DistrictDrillDownProps> = ({
 
     return (
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col h-[calc(100vh-140px)]">
-            <div className="p-6 border-b border-slate-200 flex items-center justify-between gap-4 bg-slate-50">
+            <div className="p-4 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50">
                 <div className="flex items-center gap-4">
                     <button
                         onClick={onBack}
@@ -39,7 +39,7 @@ export const DistrictDrillDown: React.FC<DistrictDrillDownProps> = ({
                     </div>
                 </div>
 
-                <div className="relative w-64">
+                <div className="relative w-full sm:w-64 max-w-full">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" size={16} />
                     <input
                         type="text"
@@ -51,7 +51,7 @@ export const DistrictDrillDown: React.FC<DistrictDrillDownProps> = ({
                 </div>
             </div>
 
-            <div className="p-6 overflow-y-auto flex-1 custom-scrollbar bg-slate-50/50">
+            <div className="p-4 sm:p-6 overflow-y-auto flex-1 custom-scrollbar bg-slate-50/50">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {filteredLBs.map((lb) => (
                         <div
