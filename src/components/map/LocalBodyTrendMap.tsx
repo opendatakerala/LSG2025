@@ -231,6 +231,7 @@ export const LocalBodyTrendMap: React.FC<LocalBodyTrendMapProps> = ({
                                             {trendData.wardInfo?.[selectedWard]?.candidates.map((cand, idx) => {
                                                 const isWinner = cand.status?.toLowerCase() === 'won';
                                                 const rowClass = isWinner ? 'bg-yellow-50 border-yellow-200' : 'bg-white border-slate-100';
+                                                console.log(cand)
 
                                                 // Calculate percent
                                                 const candidates = trendData.wardInfo[selectedWard!].candidates;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { MapContainer, GeoJSON, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -51,6 +51,33 @@ const MapController: React.FC<{ data: any; padding?: [number, number] }> = ({ da
     return null;
 };
 
+type TopoJSON = {
+  type: string;
+  objects: Record<string, string>;
+}
+
+const process = (geoJsonData: TopoJSON): GeoJSON.GeoJsonObject | null => {
+  if (geoJsonData) {
+      let dataToRender = geoJsonData;
+
+      // Handle TopoJSON
+      if (geoJsonData.type === 'Topology') {
+          try {
+              const objects = geoJsonData.objects;
+              const objectName = Object.keys(objects)[0]; // Pick first object
+              if (objectName) {
+                  dataToRender = feature(geoJsonData, objects[objectName]);
+              }
+          } catch (err) {
+              console.error("TopoJSON conversion error:", err);
+          }
+      }
+    return dataToRender as GeoJSON.GeoJsonObject;
+  } else {
+      return null;
+  }
+}
+
 export const InteractiveMap: React.FC<InteractiveMapProps> = ({
     geoJsonData,
     onFeatureClick,
@@ -64,30 +91,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
     doubleClickZoom,
     padding = [20, 20]
 }) => {
-    const [processedData, setProcessedData] = useState<any>(null);
-
-    useEffect(() => {
-        if (geoJsonData) {
-            let dataToRender = geoJsonData;
-
-            // Handle TopoJSON
-            if (geoJsonData.type === 'Topology') {
-                try {
-                    const objects = geoJsonData.objects;
-                    const objectName = Object.keys(objects)[0]; // Pick first object
-                    if (objectName) {
-                        dataToRender = feature(geoJsonData, objects[objectName]);
-                    }
-                } catch (err) {
-                    console.error("TopoJSON conversion error:", err);
-                }
-            }
-
-            setProcessedData(dataToRender);
-        } else {
-            setProcessedData(null);
-        }
-    }, [geoJsonData]);
+  const processedData = process(geoJsonData)
 
     // Style for the features
     // ... (rest of the file logic reused) ...

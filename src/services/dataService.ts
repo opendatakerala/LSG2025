@@ -163,8 +163,11 @@ export const fetchTrendResults = async (): Promise<TrendResult[]> => {
         console.warn("Failed to load party groups, defaulting to empty map", e);
     }
 
-    const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
-    const url = `${baseUrl}data/csv/trend_detailed_results_2025.csv`;
+    // const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+    // const url = `${baseUrl}data/csv/trend_detailed_results_2025.csv`;
+    // data gets updated independently
+  const url = "https://raw.githubusercontent.com/opendatakerala/LSGD2025-Results-Data/refs/heads/main/trend_detailed_results_2025.csv";
+
 
     try {
         const response = await fetch(url);
@@ -262,24 +265,30 @@ export const fetchTrendResults = async (): Promise<TrendResult[]> => {
                             // Sort candidates by votes (descending)
                             ward.candidates.sort((a, b) => b.votes - a.votes);
 
-                            // Find the true winner: Highest voted candidate with status 'won'
-                            const trueWinner = ward.candidates.find(c => c.status && c.status.toLowerCase() === 'won');
-                            
-                            if (trueWinner) {
-                                ward.winner = trueWinner;
-                                calculatedWardsDeclared++;
+                            // Clear any existing status flags
+                            ward.candidates.forEach(c => {
+                            c.status = ''; // or null / '' depending on your schema
+                            });
 
-                                const group = trueWinner.group;
-                                if (group === 'LDF') trend.LDF_Seats++;
-                                else if (group === 'UDF') trend.UDF_Seats++;
-                                else if (group === 'NDA') trend.NDA_Seats++;
-                                else trend.IND_Seats++;
+                            // Highest-vote candidate is the winner (if any)
+                            const topCandidate = ward.candidates[0];
+
+                            if (topCandidate && topCandidate.votes > 0) {
+                            topCandidate.status = 'won';   // ✅ only this one gets 'won'
+                            ward.winner = topCandidate;
+                            calculatedWardsDeclared++;
+
+                            const group = topCandidate.group;
+                            if (group === 'LDF') trend.LDF_Seats++;
+                            else if (group === 'UDF') trend.UDF_Seats++;
+                            else if (group === 'NDA') trend.NDA_Seats++;
+                            else trend.IND_Seats++;
                             }
-                            // Leading logic is implicit or handled by UI if no winner
+                            // If no candidate or all votes are 0, no winner; ward not counted
                         });
 
                         trend.Wards_Declared = calculatedWardsDeclared;
-                    });
+                        });
 
                     const aggregatedTrends = Array.from(lbMap.values()).map(trend => {
                         const { LDF_Seats, UDF_Seats, NDA_Seats, IND_Seats } = trend;

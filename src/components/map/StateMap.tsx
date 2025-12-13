@@ -1,11 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import { InteractiveMap } from './InteractiveMap';
 import type { TrendResult } from '../../services/dataService';
-import { feature } from 'topojson-client';
+import { useMap } from '../../services/map';
+
 
 interface StateMapProps {
     trends: TrendResult[];
     onSelectLB: (lbCode: string, districtName: string, type: string) => void;
+}
+
+const tabToFile = {
+  "district": "districts.json",
+  "block": "block-panchayats.json",
+  "grama": "grama-panchayats.json"
 }
 
 export const StateMap: React.FC<StateMapProps> = ({
@@ -13,84 +20,11 @@ export const StateMap: React.FC<StateMapProps> = ({
     onSelectLB
 }) => {
     const [activeTab, setActiveTab] = useState<'district' | 'block' | 'grama'>('district');
-    const [geoJsonData, setGeoJsonData] = useState<any>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
     const [hoveredInfo, setHoveredInfo] = useState<{ name: string, district: string, trend?: TrendResult } | null>(null);
-    const [mapKey, setMapKey] = useState(0);
 
-    useEffect(() => {
-        const loadMap = async () => {
-            setLoading(true);
-            setError(null);
-            setGeoJsonData(null);
-            try {
-                const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
-                let fileName = '';
-                switch (activeTab) {
-                    case 'district': fileName = 'districts.json'; break;
-                    case 'block': fileName = 'block-panchayats.json'; break;
-                    case 'grama': fileName = 'grama-panchayats.json'; break;
-                }
+    const fileName = tabToFile[activeTab];
 
-                const path = `${baseUrl}data/topojson/Kerala/${fileName}`;
-                const response = await fetch(path);
-                if (!response.ok) throw new Error('Map data not found');
-
-                let data = await response.json();
-
-                // Convert TopoJSON to GeoJSON if needed
-                if (data.type === 'Topology') {
-                    const objectName = Object.keys(data.objects)[0];
-                    if (objectName) {
-                        data = feature(data, data.objects[objectName]);
-                    }
-                }
-
-                // Inject style properties based on trends
-                const processedFeatures = data.features.map((feature: any) => {
-                    const props = feature.properties;
-                    // Try to match LB Code
-                    const code = props.SEC_Kerala_code || props.LSG_code || props.LGD_Code;
-                    // Or match by Name for Districts if code fails? (GeoJSON might have different codes)
-
-                    const trend = trends.find(t => t.LB_Code === code);
-
-                    let color = '#94a3b8'; // Default slate
-                    if (trend) {
-                        switch (trend.Leading_Front) {
-                            case 'LDF': color = '#ef4444'; break; // red-500
-                            case 'UDF': color = '#22c55e'; break; // green-500
-                            case 'NDA': color = '#f97316'; break; // orange-500
-                            case 'Hung': color = '#64748b'; break; // slate-500
-                            case 'IND': color = '#94a3b8'; break;
-                        }
-                    }
-
-                    return {
-                        ...feature,
-                        properties: {
-                            ...props,
-                            _fillColor: color, // Custom prop for InteractiveMap to use? 
-                            // InteractiveMap uses specific style logic. I might need to update InteractiveMap or pass a style function.
-                            // Currently InteractiveMap uses fixed style. I should update it to support data-driven style.
-                            // Workaround: InteractiveMap is simple. I can update it to read fillColor from properties.
-                        }
-                    };
-                });
-
-                setGeoJsonData({ ...data, features: processedFeatures });
-                setMapKey(prev => prev + 1);
-
-            } catch (err) {
-                console.error(err);
-                setError(`Failed to load ${activeTab} map`);
-            } finally {
-                setLoading(false);
-            }
-        };
-        loadMap();
-    }, [activeTab, trends]);
+    const map = useMap(fileName, trends);
 
     const handleFeatureClick = (feature: any) => {
         const props = feature.properties;
@@ -139,22 +73,22 @@ export const StateMap: React.FC<StateMapProps> = ({
 
             <div className="flex-1 flex flex-col md:flex-row">
                 <div className="flex-1 relative bg-slate-50 min-h-[50vh] md:min-h-0">
-                    {loading && (
+                    {map.isLoading && (
                         <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/50 backdrop-blur-sm">
                             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
                         </div>
                     )}
-                    {error && (
+                    {map.isError && (
                         <div className="absolute inset-0 flex items-center justify-center text-red-500 p-4">
-                            {error}
+                            {map.error.message}
                         </div>
                     )}
 
                     <div className="h-full w-full">
                         {/* We need InteractiveMap to respect feature colors. I'll need to modify InteractiveMapProps to allow style callback or property */}
                         <InteractiveMap
-                            key={mapKey}
-                            geoJsonData={geoJsonData}
+                            key={activeTab}
+                            geoJsonData={map.data}
                             onFeatureClick={handleFeatureClick}
                             onFeatureHover={handleFeatureHover}
                             onFeatureOut={() => setHoveredInfo(null)}
