@@ -164,7 +164,10 @@ export const fetchTrendResults = async (): Promise<TrendResult[]> => {
     }
 
     const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
-    const url = `${baseUrl}data/csv/trend_detailed_results_2025.csv`;
+    // const url = `${baseUrl}data/csv/trend_detailed_results_2025.csv`;
+    // data gets updated independently
+  const url = "https://raw.githubusercontent.com/opendatakerala/LSGD2025-Results-Data/refs/heads/main/trend_detailed_results_2025.csv";
+
 
     try {
         const response = await fetch(url);
@@ -264,7 +267,7 @@ export const fetchTrendResults = async (): Promise<TrendResult[]> => {
 
                             // Find the true winner: Highest voted candidate with status 'won'
                             const trueWinner = ward.candidates.find(c => c.status && c.status.toLowerCase() === 'won');
-                            
+
                             if (trueWinner) {
                                 ward.winner = trueWinner;
                                 calculatedWardsDeclared++;
