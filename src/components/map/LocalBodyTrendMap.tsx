@@ -66,7 +66,7 @@ export const LocalBodyTrendMap: React.FC<LocalBodyTrendMapProps> = ({
                             if (winner) {
                                 switch (winner.group) {
                                     case 'LDF': color = '#ef4444'; break;
-                                    case 'UDF': color = '#22c55e'; break;
+                                    case 'UDF': color = '#2768F5'; break; //dark blue instead of green
                                     case 'NDA': color = '#f97316'; break;
                                     default: color = '#64748b'; break; // Others
                                 }
@@ -74,7 +74,7 @@ export const LocalBodyTrendMap: React.FC<LocalBodyTrendMapProps> = ({
                                 // Lighter colors for leading
                                 switch (leader.group) {
                                     case 'LDF': color = '#fca5a5'; break; // red-300
-                                    case 'UDF': color = '#86efac'; break; // green-300
+                                    case 'UDF': color = '#2768F5'; break; // dark-blue
                                     case 'NDA': color = '#fdba74'; break; // orange-300
                                     default: color = '#cbd5e1'; break; // slate-300
                                 }
@@ -249,7 +249,7 @@ export const LocalBodyTrendMap: React.FC<LocalBodyTrendMapProps> = ({
                                                         </div>
                                                         <div className="h-1 w-full bg-slate-100 rounded-full overflow-hidden">
                                                             <div
-                                                                className={`h-full ${cand.group === 'LDF' ? 'bg-red-500' : cand.group === 'UDF' ? 'bg-green-500' : cand.group === 'NDA' ? 'bg-orange-500' : 'bg-slate-400'}`}
+                                                                className={`h-full ${cand.group === 'LDF' ? 'bg-red-500' : cand.group === 'UDF' ? 'bg-indigo-500' : cand.group === 'NDA' ? 'bg-orange-500' : 'bg-slate-400'}`}
                                                                 style={{ width: `${percent}%` }}
                                                             ></div>
                                                         </div>
@@ -287,7 +287,7 @@ export const LocalBodyTrendMap: React.FC<LocalBodyTrendMapProps> = ({
                                             <div className="space-y-2">
                                                 {[
                                                     { label: 'LDF', count: trendData.LDF_Seats, color: 'bg-red-500' },
-                                                    { label: 'UDF', count: trendData.UDF_Seats, color: 'bg-green-500' },
+                                                    { label: 'UDF', count: trendData.UDF_Seats, color: 'bg-indigo-500' },
                                                     { label: 'NDA', count: trendData.NDA_Seats, color: 'bg-orange-500' },
                                                     { label: 'Others', count: trendData.IND_Seats, color: 'bg-slate-400' }
                                                 ].map((item) => (
@@ -332,13 +332,13 @@ export const LocalBodyTrendMap: React.FC<LocalBodyTrendMapProps> = ({
                                 let statusBorder = 'border-l-4 border-l-slate-300';
                                 if (winner) {
                                     statusBorder = winner.group === 'LDF' ? 'border-l-4 border-l-red-500' :
-                                        winner.group === 'UDF' ? 'border-l-4 border-l-green-500' :
+                                        winner.group === 'UDF' ? 'border-l-4 border-l-indigo-500' :
                                             winner.group === 'NDA' ? 'border-l-4 border-l-orange-500' :
                                                 'border-l-4 border-l-slate-500';
                                 } else if (leader) {
                                     // Use leader's group for border color
                                     statusBorder = leader.group === 'LDF' ? 'border-l-4 border-l-red-400' :
-                                        leader.group === 'UDF' ? 'border-l-4 border-l-green-400' :
+                                        leader.group === 'UDF' ? 'border-l-4 border-l-indigo-400' :
                                             leader.group === 'NDA' ? 'border-l-4 border-l-orange-400' :
                                                 'border-l-4 border-l-blue-400';
                                 }
@@ -372,7 +372,7 @@ export const LocalBodyTrendMap: React.FC<LocalBodyTrendMapProps> = ({
                                                     {winner?.name || leader?.name}
                                                 </span>
                                                 <span className={`font-bold ml-2 ${(winner?.group || leader?.group) === 'LDF' ? 'text-red-600' :
-                                                    (winner?.group || leader?.group) === 'UDF' ? 'text-green-600' :
+                                                    (winner?.group || leader?.group) === 'UDF' ? 'text-indigo-600' :
                                                         (winner?.group || leader?.group) === 'NDA' ? 'text-orange-600' : 'text-slate-600'
                                                     }`}>
                                                     {(winner?.group || leader?.group)}
