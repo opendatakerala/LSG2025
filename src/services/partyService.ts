@@ -26,7 +26,7 @@ export const fetchPartyGroups = async (): Promise<Map<string, string>> => {
                     }
                     resolve(groupMap);
                 },
-                error: (err) => {
+                error: (err: any) => {
                     console.error("Error parsing party groups:", err);
                     resolve(new Map());
                 }
