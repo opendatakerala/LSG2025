@@ -1,18 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
-import { feature } from 'topojson-client';
+import { feature } from "topojson-client";
 
 type Trend = {
   LB_Code: string;
   Leading_Front: string;
-}
+};
 
 type Properties = {
-  [index: string]: string | number
-}
+  [index: string]: string | number;
+};
 
 type Feature = {
-  properties: Properties
-}
+  properties: Properties;
+};
 
 const loadMap = async (file: string, trends: Trend[]) => {
   const baseUrl = import.meta.env.BASE_URL.endsWith("/")
@@ -72,7 +72,7 @@ const loadMap = async (file: string, trends: Trend[]) => {
       },
     };
   });
-  return ({ ...data, features: processedFeatures });
+  return { ...data, features: processedFeatures };
 };
 
 export const useMap = (file: string, trends: Trend[]) =>
@@ -80,3 +80,30 @@ export const useMap = (file: string, trends: Trend[]) =>
     queryKey: ["map", file],
     queryFn: () => loadMap(file, trends),
   });
+
+const BASE_URL = import.meta.env.BASE_URL;
+
+const fetchGeoJSON = async (
+  district: string,
+  type: string,
+  name: string,
+) => {
+  if (district && type && name) {
+    const url = `${BASE_URL}data/geojson/${district}/${type}/${name}.json`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("GeoJSON not found");
+    return await response.json();
+  }
+};
+
+export const useGeoJSONMap = (
+  district: string | undefined,
+  type: string | undefined,
+  name: string | undefined,
+) => {
+  return useQuery({
+    queryKey: ["geomap", district, type, name],
+    queryFn: () => fetchGeoJSON(district!, type!, name!),
+    enabled: !!district && !!type && !!name,
+  });
+};

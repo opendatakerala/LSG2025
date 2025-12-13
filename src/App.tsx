@@ -3,10 +3,11 @@ import { DataDashboard } from './components/dashboard/DataDashboard';
 import { MapDashboard } from './components/map/MapDashboard';
 import { DetailPanel } from './components/details/DetailPanel';
 import { DistrictDrillDown } from './components/dashboard/DistrictDrillDown';
-import { fetchLocalBodies, fetchWards, fetchPollingStations, fetchGeoJSON, fetchTrendResults, type LocalBody, type Ward, type PollingStation, type TrendResult } from './services/dataService';
+import { fetchLocalBodies, fetchWards, fetchPollingStations, fetchTrendResults, type LocalBody, type Ward, type PollingStation, type TrendResult } from './services/dataService';
 import { Search, LayoutGrid, Map as MapIcon } from 'lucide-react';
 
 import { DisclaimerModal } from './components/common/DisclaimerModal';
+import { useGeoJSONMap } from './services/map';
 
 function App() {
   const [localBodies, setLocalBodies] = useState<LocalBody[]>([]);
@@ -36,10 +37,13 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [selectedLocalBody, setSelectedLocalBody] = useState<LocalBody | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [mapData, setMapData] = useState<any | null>(null);
   const [drillDownData, setDrillDownData] = useState<{ district: string; type: string } | null>(null);
   const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'data' | 'map'>('data');
+
+  const [district, setDistrict] = useState<string>();
+  const [type, setType] = useState<string>();
+  const [name, setName] = useState<string>();
 
   useEffect(() => {
     const loadData = async () => {
@@ -107,11 +111,12 @@ function App() {
     const type = lb.lb_type;
     const name = lb.lb_name_english;
 
-    const geoJson = await fetchGeoJSON(district, type, name);
-    if (geoJson) {
-      setMapData(geoJson);
-    }
+    setDistrict(district);
+    setType(type);
+    setName(name);
   };
+
+  const map = useGeoJSONMap(district, type, name)
 
   const handleClearSelection = async () => {
     // Determine if we should go back to a drill-down view instead of the home dashboard
@@ -135,7 +140,6 @@ function App() {
     }
 
     setSelectedLocalBody(null);
-    setMapData(null);
   };
 
   const handleDrillDown = (district: string, type: string) => {
@@ -149,11 +153,10 @@ function App() {
   const handleGoHome = () => {
     setSelectedLocalBody(null);
     setDrillDownData(null);
-    setMapData(null);
     setSelectedKPI(null);
     setSearchTerm('');
     // Optionally reset tab to data?
-    // setActiveTab('data'); 
+    // setActiveTab('data');
   };
 
 
@@ -370,7 +373,7 @@ function App() {
               onBack={handleClearSelection}
               wards={wards}
               pollingStations={pollingStations}
-              geoJsonData={mapData}
+              geoJsonData={map.data}
               localBodies={localBodies}
               trendData={trendResults.find(t => t.LB_Code === selectedLocalBody.lb_code)}
             />
