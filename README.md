@@ -11,6 +11,7 @@ A web portal to visualize Kerala LSG election data, including an interactive map
 - **Search**: Search for specific local bodies.
 - **Detail View**: Click on a local body to see detailed information and its specific map.
 - **Filtering**: Filter local bodies by type (Corporation, Municipality, etc.) by clicking on KPI cards.
+- **Assembly Constituency Mapping**: Ward-level data structure supports correlation with Kerala's 140 Assembly Constituencies.
 
 ## Tech Stack
 
@@ -36,3 +37,7 @@ A web portal to visualize Kerala LSG election data, including an interactive map
 
 - Source Data from SEC Kerala
 - Source Data from OpenStreetMaps
+
+## Documentation
+
+- [Assembly Constituency Mapping](docs/ASSEMBLY_CONSTITUENCY_MAPPING.md) - Details on the ward-to-AC correlation feature

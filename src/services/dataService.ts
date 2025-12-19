@@ -55,6 +55,8 @@ export interface Ward {
     male_voters: number;
     female_voters: number;
     other_voters: number;
+    assembly_constituency_code?: string;
+    assembly_constituency_name?: string;
 }
 
 export interface PollingStation {
@@ -118,6 +120,8 @@ export const fetchWards = async (): Promise<Ward[]> => {
                         male_voters: parseInt(row['Males'] || '0', 10),
                         female_voters: parseInt(row['Females'] || '0', 10),
                         other_voters: parseInt(row['Others'] || '0', 10),
+                        assembly_constituency_code: row['AC Code'] || undefined,
+                        assembly_constituency_name: row['AC Name'] || undefined,
                     }));
                 resolve(wards);
             },
