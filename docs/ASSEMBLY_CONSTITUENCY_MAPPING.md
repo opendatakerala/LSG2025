@@ -77,7 +77,34 @@ To populate the AC data:
 2. Update the `wards.csv` file with the appropriate AC Code and AC Name for each ward
 3. The data will automatically be parsed by the `fetchWards()` function in `dataService.ts`
 
-### Example Python Script
+### Using the Populate Script
+
+A Python script is provided at `scripts/populate_ac_data.py` to help populate AC data:
+
+```bash
+# Create a sample mapping template
+python3 scripts/populate_ac_data.py --create-sample
+
+# Populate AC data using your mapping file
+python3 scripts/populate_ac_data.py \
+    --input public/data/csv/wards.csv \
+    --mapping your_ac_mapping.json \
+    --output public/data/csv/wards_with_ac.csv
+```
+
+### Mapping File Format
+
+The mapping file should be a JSON file with ward codes as keys:
+
+```json
+{
+  "B01001001": {"code": "01", "name": "Parassala"},
+  "B01001002": {"code": "01", "name": "Parassala"},
+  "G01001001": {"code": "01", "name": "Parassala"}
+}
+```
+
+### Manual Update Example
 
 ```python
 import csv
